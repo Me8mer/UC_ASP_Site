@@ -1,15 +1,20 @@
-# Use the official .NET SDK image to build
+# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
+WORKDIR /src
+COPY . .
+RUN dotnet publish -c Release -o /app
 
-# Copy everything
-COPY . ./
-
-# Publish to /out
-RUN dotnet publish -c Release -o /out
-
-# Use the ASP.NET runtime image to run
+# Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /out ./
+COPY --from=build /app .
+
+# Install dotnet-ef CLI tool
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
+
+# Run EF migration to ensure database and tables are created
+RUN dotnet ef database update --no-build
+
+# Start the app
 ENTRYPOINT ["dotnet", "UMBRAPage.dll"]
