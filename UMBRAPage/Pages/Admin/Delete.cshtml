@@ -1,0 +1,20 @@
+@page "{id:int}"
+@model UMBRAPage.Pages.Admin.DeleteModel
+@{
+    ViewData["Title"] = "Delete Blog Article";
+}
+
+<h2>Delete Blog Post</h2>
+
+<h4>Are you sure you want to delete this post?</h4>
+
+<div>
+    <h5>@Model.Article.Title</h5>
+    <p>@Model.Article.Content</p>
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Article.Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-page="/Blogs/Index" class="btn btn-secondary">Cancel</a>
+</form>

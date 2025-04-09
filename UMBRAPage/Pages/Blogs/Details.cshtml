@@ -1,0 +1,19 @@
+@page "{id:int}"
+@model UMBRAPage.Pages.Blogs.DetailsModel
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = Model.Article.Title;
+    bool isAdmin = HttpContext.Session.GetString("IsAdmin") == "true";
+}
+
+<h2>@Model.Article.Title</h2>
+<small class="text-muted">@Model.Article.PublishedOn.ToString("yyyy-MM-dd")</small>
+
+<p>@Model.Article.Content</p>
+
+@if (isAdmin)
+{
+    <hr />
+    <a asp-page="/Admin/Edit" asp-route-id="@Model.Article.Id" class="btn btn-warning">✏️ Edit</a>
+    <a asp-page="/Admin/Delete" asp-route-id="@Model.Article.Id" class="btn btn-danger">🗑️ Delete</a>
+}

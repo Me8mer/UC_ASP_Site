@@ -1,0 +1,14 @@
+@page
+@model UMBRAPage.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+<p>Welcome, admin. Choose an action:</p>
+
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a asp-page="/Admin/Create" class="btn btn-success">➕ Create Blog Post</a>
+    <a asp-page="/Blogs/Index" class="btn btn-primary">📄 View All Blog Posts</a>
+</div>
+    

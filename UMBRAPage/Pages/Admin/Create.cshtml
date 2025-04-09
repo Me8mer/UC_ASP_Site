@@ -1,0 +1,21 @@
+@page
+@model UMBRAPage.Pages.Admin.CreateModel
+@{
+    ViewData["Title"] = "Create Blog Article";
+}
+
+<h2>Create a New Blog Post</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Article.Title" class="form-label"></label>
+        <input asp-for="Article.Title" class="form-control" />
+        <span asp-validation-for="Article.Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Article.Content" class="form-label"></label>
+        <textarea asp-for="Article.Content" class="form-control"></textarea>
+        <span asp-validation-for="Article.Content" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

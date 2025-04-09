@@ -1,0 +1,18 @@
+@page
+@model UMBRAPage.Pages.Blogs.IndexModel
+@{
+    ViewData["Title"] = "Blogs";
+}
+
+<h2>Blog Posts</h2>
+
+<ul class="list-group">
+@foreach (var article in Model.Articles)
+{
+    <li class="list-group-item">
+        <a asp-page="/Blogs/Details" asp-route-id="@article.Id">
+            @article.Title
+        </a>
+    </li>
+}
+</ul>

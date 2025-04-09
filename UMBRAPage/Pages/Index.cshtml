@@ -1,0 +1,15 @@
+﻿@page
+@model UMBRAPage.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+<h2>Latest Blog Articles</h2>
+<ul>
+@foreach (var article in Model.Articles)
+{
+    <li>
+        <a asp-page="/Article/Details" asp-route-id="@article.Id">@article.Title</a>
+        <small>@article.PublishedOn.ToShortDateString()</small>
+    </li>
+}
+</ul>

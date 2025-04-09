@@ -1,0 +1,22 @@
+@page "{id:int}"
+@model UMBRAPage.Pages.Admin.EditModel
+@{
+    ViewData["Title"] = "Edit Blog Article";
+}
+
+<h2>Edit Blog Post</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Article.Id" />
+    <div class="mb-3">
+        <label asp-for="Article.Title" class="form-label"></label>
+        <input asp-for="Article.Title" class="form-control" />
+        <span asp-validation-for="Article.Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Article.Content" class="form-label"></label>
+        <textarea asp-for="Article.Content" class="form-control"></textarea>
+        <span asp-validation-for="Article.Content" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
