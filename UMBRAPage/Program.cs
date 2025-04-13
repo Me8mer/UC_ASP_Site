@@ -9,18 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-var envPath = "/etc/secrets/.env";
-if (File.Exists(envPath))
-{
-    DotNetEnv.Env.Load(envPath);
-}
-else if (File.Exists(".env"))
-{
-    DotNetEnv.Env.Load();
-}
-
+#if DEBUG
+// only use .env locally in development
+DotNetEnv.Env.Load();
+#endif
 
 var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException("Missing database connection string.");
+}
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));

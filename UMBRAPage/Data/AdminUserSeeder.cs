@@ -15,7 +15,7 @@ namespace UMBRAPage.Data
 
             var users = new List<AdminUser>();
 
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 2; i++)
             {
                 var username = Environment.GetEnvironmentVariable($"AdminUser{i}__Username");
                 var password = Environment.GetEnvironmentVariable($"AdminUser{i}__Password");
