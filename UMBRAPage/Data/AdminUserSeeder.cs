@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UMBRAPage.Models;
 using BCrypt.Net;
@@ -17,8 +18,18 @@ namespace UMBRAPage.Data
 
             for (int i = 1; i <= 2; i++)
             {
-                var username = Environment.GetEnvironmentVariable($"AdminUser{i}__Username");
-                var password = Environment.GetEnvironmentVariable($"AdminUser{i}__Password");
+                // Try to read from secret file
+                string baseKey = $"AdminUser{i}__";
+                string userPath = $"/etc/secrets/{baseKey}Username";
+                string passPath = $"/etc/secrets/{baseKey}Password";
+
+                string username = File.Exists(userPath)
+                    ? File.ReadAllText(userPath).Trim()
+                    : Environment.GetEnvironmentVariable($"{baseKey}Username");
+
+                string password = File.Exists(passPath)
+                    ? File.ReadAllText(passPath).Trim()
+                    : Environment.GetEnvironmentVariable($"{baseKey}Password");
 
                 if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
                 {
