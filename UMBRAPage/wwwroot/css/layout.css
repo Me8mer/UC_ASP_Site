@@ -1,0 +1,154 @@
+﻿/* === FONT SETUP === */
+@font-face {
+  font-family: 'MAEL';
+  src: url('/fonts/Mael.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;
+  color: #272525;
+}
+
+.mael {
+  font-family: 'MAEL', serif;
+}
+
+/* === SIDEBAR BASE STYLES === */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 150px; /* collapsed width */
+  height: 100%;
+  background-color: #272525; /* black when collapsed */
+  transition: all 0.3s ease;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+/* Expanded state: wider and background becomes green */
+.sidebar.expanded {
+  width: 350px;
+  background-color: #272525; /* green when expanded */
+}
+
+/* === SIDEBAR HEADER (Logo) === */
+.sidebar-header {
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.sidebar-logo {
+  width: 100%;
+  max-width: 120px; /* adjust as needed */
+}
+
+/* === CLICKABLE OVERLAY (when collapsed) === */
+/* This overlay sits below the logo and covers the entire sidebar width */
+#clickableOverlay {
+  position: absolute;
+  top: 120px; /* adjust: should be just below the logo */
+  left: 0;
+  width: 150px; /* matches collapsed sidebar width */
+  height: calc(100% - 120px);
+  background: transparent;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* Hide overlay when expanded */
+.sidebar.expanded #clickableOverlay {
+  display: none;
+}
+
+/* === SIDEBAR CONTENT (visible in expanded mode) === */
+.sidebar-content {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+.sidebar.expanded .sidebar-content {
+  opacity: 1;
+}
+
+/* Toggle button: only visible when expanded */
+.toggle-btn {
+  background: none;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.25rem 0.75rem;
+  margin-top: 1rem;
+}
+
+/* === BRAND TEXT & NAV LINKS (larger text) === */
+.brand-text {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-link {
+  color: #fff;
+  font-size: 2rem; /* bigger text */
+  font-family: 'MAEL', serif;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* === MAIN CONTENT AREA === */
+.content-area {
+  margin-left: 150px; /* collapsed sidebar width */
+  margin-top: 75px;   /* space at top, if needed */
+  transition: margin-left 0.3s ease;
+  padding: 1rem;
+  min-height: calc(100vh - 75px);
+  box-sizing: border-box;
+}
+
+.content-area.expanded {
+  margin-left: 350px; /* expanded sidebar width */
+}
+
+.top-bar {
+  height: 100px;
+  width: 100%;
+  background-color: #2B613A;
+  color: white;
+  z-index: 900; /* below sidebar */
+}
+
+.topbar-link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-left: 1rem;
+}
+
+.topbar-link:hover {
+  text-decoration: underline;
+}

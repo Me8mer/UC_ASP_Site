@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
+using System;
 using System.IO;
+using DotNetEnv;
 
 namespace UMBRAPage.Data
 {
@@ -9,16 +10,16 @@ namespace UMBRAPage.Data
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            // Read configuration from appsettings.json
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory()) // Required for reading appsettings.json
-                .AddJsonFile("appsettings.json")
-                .Build();
+            // Try to load .env for local development
+            if (File.Exists(".env"))
+            {
+                Env.Load();
+            }
+
+            var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-            optionsBuilder.UseSqlite(connectionString);
+            optionsBuilder.UseNpgsql(connectionString);
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }

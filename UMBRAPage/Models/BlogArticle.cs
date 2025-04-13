@@ -15,5 +15,10 @@ namespace UMBRAPage.Models
         public required string Content { get; set; }
 
         public DateTime PublishedOn { get; set; } = DateTime.UtcNow;
+
+        public DateTime? LastEdited { get; set; }  
+
+        [StringLength(100)]
+        public string? Author { get; set; }        
     }
 }

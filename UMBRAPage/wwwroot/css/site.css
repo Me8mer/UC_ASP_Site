@@ -1,22 +1,70 @@
-html {
-  font-size: 14px;
+@font-face {
+  font-family: 'MAEL';
+  src: url('/fonts/Mael.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+.mael {
+  font-family: 'MAEL', serif;
 }
 
 body {
-  margin-bottom: 60px;
+  font-family: 'Roboto', sans-serif;
+  background-color: #FFFFFF;
+  color: #272525;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'MAEL', serif;
+}
+
+/* Bootstrap overrides */
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-word;
+}
+
+a {
+  color: #2B613A; /* UMBRA green */
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #2B613A;
+  border-color: #245030;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #2B613A;
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+
+/* Optional accent styles */
+.umbra-accent {
+  color: #F3E033;
 }

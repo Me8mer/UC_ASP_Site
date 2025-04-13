@@ -1,4 +1,5 @@
 using UMBRAPage.Data;
+using UMBRAPage.Models;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -8,8 +9,21 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+var envPath = "/etc/secrets/.env";
+if (File.Exists(envPath))
+{
+    DotNetEnv.Env.Load(envPath);
+}
+else if (File.Exists(".env"))
+{
+    DotNetEnv.Env.Load();
+}
+
+
+var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddSession(options =>
 {
@@ -20,10 +34,12 @@ builder.Services.AddSession(options =>
 
 
 var app = builder.Build();
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     db.Database.Migrate();
+    AdminUserSeeder.Seed(db);
 }
 
 // Configure the HTTP request pipeline.

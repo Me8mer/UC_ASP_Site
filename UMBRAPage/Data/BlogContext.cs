@@ -10,5 +10,7 @@ namespace UMBRAPage.Data
         { }
 
         public DbSet<BlogArticle> BlogArticles { get; set; }
+        public DbSet<AdminUser> AdminUsers { get; set; }
+
     }
 }

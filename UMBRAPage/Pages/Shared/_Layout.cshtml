@@ -1,86 +1,91 @@
-﻿@using Microsoft.AspNetCore.Http
-@{
-    // Check if session indicates an admin is logged in:
-    bool isAdmin = (Context.Session.GetString("IsAdmin") == "true");
+﻿@{
+    Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - UMBRAPage</title>
-    <!-- Using Bootstrap via CDN for basic styling -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="icon" type="image/png" href="~/favicon.png" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"] - UMBRAPage</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+  <!-- Google Font: Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Custom layout CSS (includes MAEL font) -->
+  <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+
+  <link rel="icon" type="image/png" href="~/favicon.png" />
 </head>
 <body>
-    <!-- Header with Navigation Bar -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <!-- Brand (app name) -->
-            <a class="navbar-brand" asp-page="/Index">UMBRAPage</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- Navigation Links -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-page="/Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-page="/Blogs/Index">Blogs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-page="/Contact">Contact</a>
-                    </li>
-                </ul>
-                <!-- Right-aligned authentication/admin links -->
-                <ul class="navbar-nav">
-                    @if (isAdmin)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Admin/Index">Admin Dashboard</a>
-                        </li>
-                            <li class="nav-item">
-                           <form method="post" asp-page="/Admin/Logout" class="form-inline" style="margin: 0;">
-                                <button type="submit" class="nav-link btn btn-link" style="padding: 0; margin: 0; border: none; background: none;">
-                                    Log out
-                                </button>
-                            </form>
+<!-- TOP GREEN STRIPE -->
+    <div class="top-bar d-flex justify-content-end align-items-center px-4">
+        @{
+            var isAdmin = Context.Session.GetString("IsAdmin") == "true";
+        }
 
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Admin/Login">Log in</a>
-                        </li>
-                    }
-                </ul>
-            </div>
-        </nav>
-    </header>
+        @if (isAdmin)
+        {
+            <a asp-page="/Admin/Index" class="topbar-link me-3">Admin Dashboard</a>
 
-    <!-- Main body content -->
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+            <form method="post" asp-page="/Admin/Logout">
+                <button type="submit" class="btn btn-link topbar-link">Logoff</button>
+            </form>
+        }
+        else
+        {
+            <a asp-page="/Admin/Login" class="topbar-link">Login</a>
+        }
+  </div>
+  <!-- SIDEBAR -->
+  <nav id="sidebar" class="sidebar collapsed">
+    <!-- Sidebar header (logo always visible) -->
+    <div class="sidebar-header">
+      <img src="~/images/UC_LOGO.png" alt="Logo" class="sidebar-logo" />
     </div>
 
-    <!-- Footer -->
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - UMBRAPage
-        </div>
-    </footer>
+    <!-- Invisible overlay when collapsed: covers area below the logo -->
+    <div id="clickableOverlay" onclick="toggleSidebar()"></div>
 
-    <!-- Scripts: Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    @RenderSection("Scripts", required: false)
+    <!-- Sidebar content: brand text, toggle button, and nav links.
+         This section is hidden (opacity 0) when collapsed. -->
+    <div class="sidebar-content">
+      <span class="brand-text mael">UMBRA CORVI</span>
+      <ul class="nav-links">
+        <li><a class="nav-link" asp-page="/Index">Home</a></li>
+        <li><a class="nav-link" asp-page="/Blogs/Index">Články</a></li>
+        <li><a class="nav-link" asp-page="/Contact">Kontakt</a></li>
+      </ul>
+      <button id="toggleBtn" class="toggle-btn mt-4" type="button" onclick="toggleSidebar()" aria-label="Collapse"></button>
+        Collapse
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT AREA -->
+  <div id="content" class="content-area">
+    @RenderBody()
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="text-center mt-4 py-3 text-muted border-top">
+    &copy; 2024 UMBRA CORVI
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Toggle Script -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const content = document.getElementById('content');
+      sidebar.classList.toggle('expanded');
+      content.classList.toggle('expanded');
+    }
+  </script>
 </body>
 </html>
